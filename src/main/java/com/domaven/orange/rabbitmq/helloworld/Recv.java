@@ -18,14 +18,22 @@ public class Recv {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
-
+        /**
+         * 声明队列
+         */
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
+        /**
+         * 分发反馈
+         */
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
           String message = new String(delivery.getBody(), "utf-8");
           System.out.println(" [x] Received '" + message + "'");
         };
+        /**
+         * 消费消息
+         */
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
     }
 }
