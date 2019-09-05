@@ -18,8 +18,14 @@ public class Send {
         try(Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
         ){
+            /**
+             * 声明队列
+             */
             channel.queueDeclare(QUEUE_NAME, false, false, false ,null);
             String message = "Hello World!";
+            /**
+             * 发布消息
+             */
             channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
             System.out.println(" [x] Sent '" + message + "'");
         }
